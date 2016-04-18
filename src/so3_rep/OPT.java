@@ -1,11 +1,11 @@
 package so3_rep;
 
-public class FIFO
+public class OPT
 {
 	ReferenceString referenceString = new ReferenceString();
 	Memory memory = new Memory();
 	
-	public FIFO()
+	public OPT()
 	{
 		
 	}
@@ -31,7 +31,7 @@ public class FIFO
 			Frame out = memory.memory.get(0);
 			for(Frame frame: memory.memory)
 			{
-				if(frame.age > out.age)
+				if(frame.timeUntilUsed < out.timeUntilUsed)
 					out = frame;
 			}
 			return out;
@@ -42,7 +42,7 @@ public class FIFO
 		}
 	}
 	
-	public int fifo()
+	public int opt()
 	{
 		int errorCounter = 0;
 		for(int i = 0; i < referenceString.numberOfReferences; i++)
@@ -56,12 +56,36 @@ public class FIFO
 				Frame temp = max();
 				temp.value = referenceString.referenceString.get(i);
 				temp.age = 0;
-				errorCounter++;
+				int j, k;
+				k = 0;
+				if(i < referenceString.referenceString.size()-1)
+				{
+					j = referenceString.referenceString.get(i + 1);
+					for(;j < referenceString.referenceString.size(); j++)
+					{
+						k++;
+						if(temp.value == referenceString.referenceString.get(j))
+						{
+							break;
+						}	
+					}
+					if(j == referenceString.referenceString.size())
+					{
+						k = 0;
+					}
+					errorCounter++;
+				}
+				temp.timeUntilUsed = k;
+				
 			}
 			for(Frame frame: memory.memory)
-				{
-					frame.age++;
-				}
+			{
+				frame.timeUntilUsed--;
+			}
+			for(Frame frame: memory.memory)
+			{
+				frame.age++;
+			}
 			for(Frame f: memory.memory)
 			{
 				System.out.print(f.toString());
@@ -73,8 +97,8 @@ public class FIFO
 	
 	public static void main(String[] args)
 	{
-		FIFO f = new FIFO();
-		System.out.println(f.referenceString.toString());
-		System.out.println("braki stron: "+f.fifo());
+		OPT o = new OPT();
+		System.out.println(o.referenceString.toString());
+		System.out.println("braki stron: "+o.opt());
 	}
 }
