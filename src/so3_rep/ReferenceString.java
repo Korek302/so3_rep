@@ -18,6 +18,16 @@ public class ReferenceString
 		}
 	}
 	
+	public int get(int index)
+	{
+		return referenceString.get(index);
+	}
+	
+	public int size()
+	{
+		return referenceString.size();
+	}
+	
 	public String toString()
 	{
 		String out = "";

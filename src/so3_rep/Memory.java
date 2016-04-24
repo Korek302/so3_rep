@@ -15,4 +15,19 @@ public class Memory
 			memory.add(new Frame(-1));
 		}
 	}
+	
+	public Memory getMemory()
+	{
+		return (Memory) memory;
+	}
+	
+	public Frame get(int index)
+	{
+		return memory.get(index);
+	}
+	
+	public boolean isEmpty()
+	{
+		return memory.isEmpty();
+	}
 }

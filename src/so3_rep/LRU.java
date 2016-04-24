@@ -1,6 +1,6 @@
 package so3_rep;
 
-public class OPT
+public class LRU
 {
 	ReferenceString referenceString = new ReferenceString();
 	Memory memory = new Memory();
@@ -13,7 +13,7 @@ public class OPT
 	
 	public Frame empty()
 	{
-		if(!memory.isEmpty())
+		if(!memory.memory.isEmpty())
 		{
 			Frame out = null;
 			for(Frame frame: memory.memory)
@@ -48,12 +48,12 @@ public class OPT
 	
 	public Frame max()
 	{
-		if(!memory.isEmpty())
+		if(!memory.memory.isEmpty())
 		{
-			Frame out = memory.get(0);
+			Frame out = memory.memory.get(0);
 			for(Frame frame: memory.memory)
 			{
-				if(frame.timeUntilUsed > out.timeUntilUsed)
+				if(frame.age > out.age)
 				{
 					out = frame;
 				}
@@ -71,7 +71,12 @@ public class OPT
 		int errorCounter = 0;
 		for(int i = 0; i < referenceString.numberOfReferences; i++)
 		{
-			if(isInMemory(referenceString.get(i)) == true)
+			for(Frame frame: memory.memory)
+			{
+				frame.age++;
+			}
+			
+			if(isInMemory(referenceString.referenceString.get(i)) == true)
 			{
 				;
 			}
@@ -86,38 +91,11 @@ public class OPT
 				{
 					temp = empty();
 				}
-				temp.value = referenceString.get(i);
+				temp.value = referenceString.referenceString.get(i);
 				temp.age = 0;
-				int j, k;
-				k = 0;
-				if(i < referenceString.size()-2)
-				{
-					j = i + 1;
-					for(;j < referenceString.size()-1; j++)
-					{
-						k++;
-						if(temp.value == referenceString.get(j))
-						{
-							break;
-						}	
-					}
-					if(j == referenceString.size()-1)
-					{
-						k = 100 + i;
-					}
-					
-				}
 				errorCounter++;
-				temp.timeUntilUsed = k;
 			}
-			for(Frame frame: memory.memory)
-			{
-				frame.timeUntilUsed--;
-			}
-			for(Frame frame: memory.memory)
-			{
-				frame.age++;
-			}
+			
 			for(Frame f: memory.memory)
 			{
 				System.out.print(f.toString());

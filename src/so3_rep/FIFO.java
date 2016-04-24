@@ -2,15 +2,16 @@ package so3_rep;
 
 public class FIFO
 {
-	ReferenceString referenceString = new ReferenceString();
-	Memory memory = new Memory();
+	ReferenceString referenceString;
+	Memory memory;
 	
-	public FIFO()
+	public FIFO(ReferenceString referenceString, Memory memory)
 	{
-		
+		this.referenceString = referenceString;
+		this.memory = memory;
 	}
 	
-	public boolean is(int value)
+	public boolean isInMemory(int value)
 	{
 		boolean out = false;
 		for(Frame frame: memory.memory)
@@ -22,6 +23,27 @@ public class FIFO
 			}
 		}
 		return out;
+	}
+	
+	public Frame empty()
+	{
+		if(!memory.memory.isEmpty())
+		{
+			Frame out = null;
+			for(Frame frame: memory.memory)
+			{
+				if(frame.value == -1)
+				{
+					out = frame;
+					break;
+				}
+			}
+			return out;
+		}
+		else
+		{
+			return null;
+		}
 	}
 	
 	public Frame max()
@@ -46,35 +68,36 @@ public class FIFO
 	{
 		int errorCounter = 0;
 		for(int i = 0; i < referenceString.numberOfReferences; i++)
-		{
-			if(is(referenceString.referenceString.get(i)) == true)
+		{	
+			if(isInMemory(referenceString.referenceString.get(i)) == true)
 			{
 				;
 			}
 			else
 			{
-				Frame temp = max();
+				Frame temp = null;
+				if(empty() == null)
+				{
+					temp = max();
+				}
+				else
+				{
+					temp = empty();
+				}
 				temp.value = referenceString.referenceString.get(i);
 				temp.age = 0;
 				errorCounter++;
 			}
 			for(Frame frame: memory.memory)
-				{
-					frame.age++;
-				}
-			for(Frame f: memory.memory)
+			{
+				frame.age++;
+			}
+			/*for(Frame f: memory.memory)
 			{
 				System.out.print(f.toString());
 			}
-			System.out.println("");
+			System.out.println("");*/
 		}
 		return errorCounter;
-	}
-	
-	public static void main(String[] args)
-	{
-		FIFO f = new FIFO();
-		System.out.println(f.referenceString.toString());
-		System.out.println("braki stron: "+f.fifo());
 	}
 }
