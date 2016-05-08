@@ -30,4 +30,9 @@ public class Memory
 	{
 		return memory.isEmpty();
 	}
+	
+	public int size()
+	{
+		return memory.size();
+	}
 }

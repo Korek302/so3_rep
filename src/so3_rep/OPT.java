@@ -5,132 +5,84 @@ public class OPT
 	ReferenceString referenceString = new ReferenceString();
 	Memory memory = new Memory();
 	
-	/*public OPT(ReferenceString referenceString, Memory memory)
+	public OPT(ReferenceString referenceString, Memory memory)
 	{
 		this.referenceString = referenceString;
 		this.memory = memory;
-	}*/
-	
-	public Frame empty()
-	{
-		if(!memory.isEmpty())
-		{
-			Frame out = null;
-			for(Frame frame: memory.memory)
-			{
-				if(frame.value == -1)
-				{
-					out = frame;
-					break;
-				}
-			}
-			return out;
-		}
-		else
-		{
-			return null;
-		}
-	}
-	
-	public boolean isInMemory(int value)
-	{
-		boolean out = false;
-		for(Frame frame: memory.memory)
-		{
-			if(frame.value == value)
-			{
-				out = true;
-				break;
-			}
-		}
-		return out;
-	}
-	
-	public Frame max()
-	{
-		if(!memory.isEmpty())
-		{
-			Frame out = memory.get(0);
-			for(Frame frame: memory.memory)
-			{
-				if(frame.timeUntilUsed > out.timeUntilUsed)
-				{
-					out = frame;
-				}
-			}
-			return out;
-		}
-		else
-		{
-			return null;
-		}
 	}
 	
 	public int opt()
 	{
 		int errorCounter = 0;
+		boolean isDone = false;
+		
 		for(int i = 0; i < referenceString.numberOfReferences; i++)
 		{
-			if(isInMemory(referenceString.get(i)) == true)
-			{
-				;
-			}
-			else
-			{
-				Frame temp = null;
-				if(empty() == null)
-				{
-					temp = max();
-				}
-				else
-				{
-					temp = empty();
-				}
-				temp.value = referenceString.get(i);
-				temp.age = 0;
-				int j, k;
-				k = 0;
-				if(i < referenceString.size()-2)
-				{
-					j = i + 1;
-					for(;j < referenceString.size()-1; j++)
-					{
-						k++;
-						if(temp.value == referenceString.get(j))
-						{
-							break;
-						}	
-					}
-					if(j == referenceString.size()-1)
-					{
-						k = 100 + i;
-					}
-					
-				}
-				errorCounter++;
-				temp.timeUntilUsed = k;
-			}
-			for(Frame frame: memory.memory)
-			{
-				frame.timeUntilUsed--;
-			}
 			for(Frame frame: memory.memory)
 			{
 				frame.age++;
 			}
-			for(Frame f: memory.memory)
-			{
-				System.out.print(f.toString());
-			}
-			System.out.println("");
-		}
+			for(int j=0; j < memory.size() && !isDone; j++)
+            {
+                if(memory.get(j).value == referenceString.get(i))
+                {
+                    isDone=true;
+                }
+                if(memory.memory.get(j).value == -1)
+                {
+                    Frame mem = new Frame(referenceString.get(i));
+                    mem.timeUntilUsed = 0;
+                    memory.memory.set(j, mem);
+                    errorCounter++;
+                    isDone = true;
+                }
+            }
+			 if(isDone == false)
+	            {
+	                int temp = 0;
+	                for(int j = 0; j < memory.size(); j++)
+	                {
+	                    for(int k = i; k < referenceString.size(); k++)
+	                    {
+	                        if(memory.get(j).value != referenceString.get(k))
+	                        {
+	                            temp++;
+	                        }
+	                        else
+	                        {
+	                            Frame f = new Frame(memory.get(j).value);
+	                            f.timeUntilUsed = temp;
+	                            memory.memory.set(j, f);
+	                            break;
+	                        }
+	                    }
+	                    temp = 0;
+	                }
+	                temp = 0;
+	                int index = 0;
+	                for(int l = 0; l < memory.size(); l++)
+	                {
+	                    if(memory.get(l).timeUntilUsed > temp)
+	                    {
+	                        temp = memory.get(l).timeUntilUsed;
+	                        index = l;
+	                    }
+	                }
+	                memory.memory.remove(index);
+	                Frame memr = new Frame(referenceString.get(i));
+	                memr.timeUntilUsed = 0;
+	                memory.memory.add(memr);
+	                errorCounter++;
+	            }
+	            isDone=false;
+	        }
 		return errorCounter;
 	}
 	
-	public static void main(String[] args)
+	/*public static void main(String[] args)
 	{
 		OPT o = new OPT();
 		System.out.println(o.referenceString.toString());
 		System.out.println("braki stron: "+o.opt());
-	}
+	}*/
 }

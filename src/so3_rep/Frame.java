@@ -10,7 +10,7 @@ public class Frame
 	{
 		this.value = value;
 		age = 0;
-		timeUntilUsed = 100;
+		timeUntilUsed = 0;
 	}
 	
 	public String toString()

@@ -5,15 +5,15 @@ public class LRU
 	ReferenceString referenceString = new ReferenceString();
 	Memory memory = new Memory();
 	
-	/*public OPT(ReferenceString referenceString, Memory memory)
+	public LRU(ReferenceString referenceString, Memory memory)
 	{
 		this.referenceString = referenceString;
 		this.memory = memory;
-	}*/
+	}
 	
 	public Frame empty()
 	{
-		if(!memory.memory.isEmpty())
+		if(!memory.isEmpty())
 		{
 			Frame out = null;
 			for(Frame frame: memory.memory)
@@ -48,9 +48,9 @@ public class LRU
 	
 	public Frame max()
 	{
-		if(!memory.memory.isEmpty())
+		if(!memory.isEmpty())
 		{
-			Frame out = memory.memory.get(0);
+			Frame out = memory.get(0);
 			for(Frame frame: memory.memory)
 			{
 				if(frame.age > out.age)
@@ -66,7 +66,7 @@ public class LRU
 		}
 	}
 	
-	public int opt()
+	public int lru()
 	{
 		int errorCounter = 0;
 		for(int i = 0; i < referenceString.numberOfReferences; i++)
@@ -76,9 +76,16 @@ public class LRU
 				frame.age++;
 			}
 			
-			if(isInMemory(referenceString.referenceString.get(i)) == true)
+			if(isInMemory(referenceString.get(i)) == true)
 			{
-				;
+				for(Frame f: memory.memory)
+				{
+					if(f.value == referenceString.get(i))
+					{
+						f.age = 0;
+						break;
+					}
+				}
 			}
 			else
 			{
@@ -91,24 +98,17 @@ public class LRU
 				{
 					temp = empty();
 				}
-				temp.value = referenceString.referenceString.get(i);
+				temp.value = referenceString.get(i);
 				temp.age = 0;
 				errorCounter++;
 			}
 			
-			for(Frame f: memory.memory)
+			/*for(Frame f: memory.memory)
 			{
 				System.out.print(f.toString());
 			}
-			System.out.println("");
+			System.out.println("");*/
 		}
 		return errorCounter;
-	}
-	
-	public static void main(String[] args)
-	{
-		OPT o = new OPT();
-		System.out.println(o.referenceString.toString());
-		System.out.println("braki stron: "+o.opt());
 	}
 }
