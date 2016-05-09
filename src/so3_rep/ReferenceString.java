@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class ReferenceString
 {
-	int numberOfReferences = 10;
+	int numberOfReferences = 1000;
 	List<Integer> referenceString = new ArrayList<Integer>(numberOfReferences);
 	
 	public ReferenceString()

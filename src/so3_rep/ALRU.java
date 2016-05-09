@@ -92,11 +92,11 @@ public class ALRU
 			{
 				frame.age++;
 			}
-			for(Frame f: memory.memory)
+			/*for(Frame f: memory.memory)
 			{
 				System.out.print(f.toString() + "["+f.timeUntilUsed+"]");
 			}
-			System.out.println("");
+			System.out.println("");*/
 		}
 		return errorCounter;
 	}
