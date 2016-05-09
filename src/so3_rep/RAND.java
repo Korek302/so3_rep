@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class RAND
 {
-	ReferenceString referenceString = new ReferenceString();
+	ReferenceString referenceString ;
 	Memory memory = new Memory();
 	
 	public RAND(ReferenceString referenceString, Memory memory)

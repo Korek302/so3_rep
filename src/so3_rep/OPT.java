@@ -74,7 +74,7 @@ public class OPT
 	                memory.memory.add(memr);
 	                errorCounter++;
 	            }
-	            isDone=false;
+	            isDone = false;
 	        }
 		return errorCounter;
 	}

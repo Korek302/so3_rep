@@ -21,6 +21,5 @@ public class Test
 		System.out.println("braki stron - ALRU: " + al.alru());
 		RAND r = new RAND(referenceString, memory5);
 		System.out.println("braki stron - RAND: "+r.rand());
-		
 	}
 }
